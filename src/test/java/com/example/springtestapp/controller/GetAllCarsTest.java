@@ -1,5 +1,6 @@
 package com.example.springtestapp.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.flywaydb.core.Flyway;
 import org.hamcrest.core.Is;
 import org.junit.Test;
@@ -18,28 +19,27 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-
+@ActiveProfiles("flyway")
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("flyway")
 public class GetAllCarsTest
 {
     @Autowired
     public   MockMvc mockMvc;
 
-//    @Autowired
-//    ObjectMapper objectMapper;
-
     @Autowired
     Flyway flyway;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
+
     @BeforeEach
-    void cleanDataBase() {
+    void cleanAndRestoreDatabase() {
         flyway.clean();
         flyway.migrate();
     }
-
 
 
     @Test
@@ -48,8 +48,12 @@ public class GetAllCarsTest
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$[0].id", Is.is(1)))
+                .andExpect(jsonPath("$[0].brand", Is.is("BMW")))
+                .andExpect(jsonPath("$[1].brand", Is.is("Seat")))
                 .andDo(print());
     }
+
+
 
 
 }

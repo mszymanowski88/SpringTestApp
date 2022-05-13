@@ -17,6 +17,7 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
 
+
     @Autowired
     public CarServiceImpl(CarRepository carRepository) {
         this.carRepository = carRepository;
@@ -49,19 +50,10 @@ public class CarServiceImpl implements CarService {
         carRepository.deleteById(id);
 
     }
-//
-//    @Override
-//    public void removeCarById(long id) {
-//
-//
-//        carRepository.deleteById(id);
-//
-//    }
-
 
     @Override
     public Car updateCar(Car car, String brand, String model, String color, int year) {
-        if (car.getId() == null || car.getId() == null) {
+        if (car.getId() == null || car.getId() == 0) {
 
             throw new EntityNotFoundException("Car or ID must not be null!");
         }
@@ -81,8 +73,6 @@ public class CarServiceImpl implements CarService {
         return carRepository.save(existingCarToUpdate);
 
 
-
-
     }
 
     @Override
@@ -91,16 +81,29 @@ public class CarServiceImpl implements CarService {
         return getAllCars().stream().filter(car -> color.equals(car.getColor())).collect(Collectors.toList());
     }
 
-        @EventListener(ApplicationReadyEvent.class)
-    public void test()
-    {
+    @Override
+    public Car changeColor(long id, String color) {
+        if (carRepository.findById(id).isEmpty()) {
+            throw new EntityNotFoundException("Car with ID " + id + " does not exsist");
+        }
 
-                System.out.println(findCarById(4));
+
+        Car existingCarToUpdate = carRepository.findById(id).get();
+
+        existingCarToUpdate.setColor(color);
 
 
+        return carRepository.save(existingCarToUpdate);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void test() {
+
+        System.out.println(getAllCars());
 
 
     }
+
 
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void test()

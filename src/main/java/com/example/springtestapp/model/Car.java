@@ -24,15 +24,13 @@ public class Car {
     public Car() {
     }
 
-    public Car( String brand, String model, String color, int year) {
+    public Car(String brand, String model, String color, int year) {
         this.id = id;
         this.brand = brand;
         this.model = model;
         this.color = color;
         this.year = year;
     }
-
-
 
 
     public Long getId() {

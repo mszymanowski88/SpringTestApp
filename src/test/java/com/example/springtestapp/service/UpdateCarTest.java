@@ -16,19 +16,17 @@ public class UpdateCarTest {
     private CarService carService;
 
     //Mock
-    private  CarRepository carRepository;
+    private CarRepository carRepository;
 
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp() {
         carRepository = Mockito.mock(CarRepository.class);
         carService = new CarServiceImpl(carRepository);
 
     }
 
     @Test
-    public void shouldUpdateCarTest()
-    {
+    public void shouldUpdateCarTest() {
         setUp();
 
         System.out.println();
@@ -41,12 +39,9 @@ public class UpdateCarTest {
 
         Mockito.when(carRepository.findById(expected.getId())).thenReturn(Optional.of(expected));
 
-        carService.updateCar(expected,"Skoda","octavia","Brown",2020);
+        carService.updateCar(expected, "Skoda", "octavia", "Brown", 2020);
 
-        assertEquals(expected.getColor(),"Yellow");
-
-
-
+        assertEquals(expected.getColor(), "Brown");
 
 
     }

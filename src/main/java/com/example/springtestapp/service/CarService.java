@@ -12,9 +12,11 @@ public interface CarService {
 
     Car findCarById(long id);
 
-    Car saveCar (Car car);
+    Car saveCar(Car car);
 
     void removeCarById(long id);
+
+    Car changeColor(long id, String color);
 
 
     Car updateCar(Car car, String brand, String model, String color, int year);

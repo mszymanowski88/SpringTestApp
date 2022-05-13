@@ -1,7 +1,5 @@
 package com.example.springtestapp.controller;
 
-
-import org.hamcrest.core.Is;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +12,26 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 @ActiveProfiles("flyway")
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UpdateCarTest {
+public class DeleteCarTest {
+
 
     @Autowired
-    private MockMvc mockMvc;
-
-
+    public MockMvc mockMvc;
 
     @Test
-    public void shouldUpdateCar() throws Exception {
-
-
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/update/1/Renulat/Twingo/Black/2029")
+    public void shouldDeleteCarById() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/cars/remove/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.model", Is.is("Twingo")));
-    
-    }
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        mockMvc.perform(MockMvcRequestBuilders.get("/cars")).andDo(print());
 
+
+    }
 }

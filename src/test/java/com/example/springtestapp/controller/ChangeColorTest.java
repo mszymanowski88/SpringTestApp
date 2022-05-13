@@ -14,28 +14,29 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 @ActiveProfiles("flyway")
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UpdateCarTest {
+public class ChangeColorTest {
 
     @Autowired
+    CarController controller;
+    @Autowired
     private MockMvc mockMvc;
-
-
 
     @Test
     public void shouldUpdateCar() throws Exception {
 
 
-
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/update/1/Renulat/Twingo/Black/2029")
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/colorupdate/1/pink")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.model", Is.is("Twingo")));
-    
+                .andExpect(MockMvcResultMatchers.jsonPath("$.color", Is.is("pink")));
+        mockMvc.perform(MockMvcRequestBuilders.get("/cars")).andDo(print());
     }
 
 }

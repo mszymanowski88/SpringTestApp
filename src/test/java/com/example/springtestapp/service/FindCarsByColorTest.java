@@ -22,20 +22,18 @@ public class FindCarsByColorTest {
     private CarService carService;
 
     //Mock
-   private CarRepository carRepository;
+    private CarRepository carRepository;
 
-   @BeforeEach
-   public void setUp()
-   {
-       carRepository = Mockito.mock(CarRepository.class);
-       carService = new CarServiceImpl(carRepository);
+    @BeforeEach
+    public void setUp() {
+        carRepository = Mockito.mock(CarRepository.class);
+        carService = new CarServiceImpl(carRepository);
 
 
-   }
+    }
 
     @Test
-    public void shouldReturnListOfCarsByColor()
-    {
+    public void shouldReturnListOfCarsByColor() {
         setUp();
 
         Car car2 = new Car();
@@ -44,17 +42,15 @@ public class FindCarsByColorTest {
         car2.setColor("Red");
         car2.setYear(2022);
 
-        List<Car> testList =  new ArrayList<>(Arrays.asList(car2));
+        List<Car> testList = new ArrayList<>(Arrays.asList(car2));
 
 
         Mockito.when(carRepository.findCarsByColor("Red")).thenReturn(testList);
 
         List<Car> expected = carRepository.findCarsByColor("Red");
-        System.out.println(expected);
 
-        assertEquals(expected,testList);
-        assertEquals(expected.size(),1);
-
+        assertEquals(expected, testList);
+        assertEquals(expected.size(), 1);
 
 
         verify(carRepository).findCarsByColor("Red");

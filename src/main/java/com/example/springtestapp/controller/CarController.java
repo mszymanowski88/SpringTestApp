@@ -14,62 +14,61 @@ import java.util.List;
 public class CarController {
 
 
+    CarService carService;
 
-   CarService carService;
-
-   @Autowired
+    @Autowired
     public CarController(CarService carService) {
         this.carService = carService;
     }
 
 
     @GetMapping(value = "/cars", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Car> getAllCars()
-        {
+    public List<Car> getAllCars() {
 //            return carRepository.findAll();
-            return carService.getAllCars();
-        }
+        return carService.getAllCars();
+    }
 
-       @GetMapping(value = "/cars/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
-       @ResponseStatus(HttpStatus.CREATED)
-                public Car getCarById(@PathVariable(value = "id") long id)
-       {
-          return carService.findCarById(id);
+    @GetMapping(value = "/cars/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
+    public Car getCarById(@PathVariable(value = "id") long id) {
+        return carService.findCarById(id);
 
-       }
+    }
 
     @GetMapping(value = "/color/{color}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Car> getAllCarsByColor(@PathVariable (value = "color") String color)
-    {
+    public List<Car> getAllCarsByColor(@PathVariable(value = "color") String color) {
 
         return carService.findCarsByColor(color);
     }
 
 
-
-    @PostMapping(value ="/add", produces = {MediaType.APPLICATION_JSON_VALUE})
-       @ResponseStatus(HttpStatus.CREATED)
-               public Car createNewCar(@RequestBody  Car car)
-       {
-           return carService.saveCar(car);
-       }
-
-
-
-    @PutMapping(value = "/update/{id}/{brand}/{model}/{color}/{productionYear}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public Car updateCar(@PathVariable(value = "id") long id, @PathVariable (value = "brand") String brand, @PathVariable (value = "model") String model, @PathVariable (value = "color") String color, @PathVariable (value = "productionYear") Integer productionYear )
-    {
+    public Car createNewCar(@RequestBody Car car) {
+        return carService.saveCar(car);
+    }
 
-        return carService.updateCar( carService.findCarById(id),brand,model,color,2023);
+
+    @PutMapping(value = "/update/{id}/{brand}/{model}/{color}/{productionYear}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
+    public Car updateCar(@PathVariable(value = "id") long id, @PathVariable(value = "brand") String brand, @PathVariable(value = "model") String model, @PathVariable(value = "color") String color, @PathVariable(value = "productionYear") Integer productionYear) {
+
+        return carService.updateCar(carService.findCarById(id), brand, model, color, 2023);
+
+    }
+
+    @PutMapping(value = "/colorupdate/{id}/{color}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
+    public Car changeColor(@PathVariable(value = "id") long id, @PathVariable(value = "color") String color) {
+
+        return carService.changeColor(id, color);
 
     }
 
 
     @DeleteMapping("/cars/remove/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deleteCar(@PathVariable (value = "id") Long id) throws EntityNotFoundException
-    {
+    public String deleteCar(@PathVariable(value = "id") Long id) throws EntityNotFoundException {
 
         carService.removeCarById(id);
 
