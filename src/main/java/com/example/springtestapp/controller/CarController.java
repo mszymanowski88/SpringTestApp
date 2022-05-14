@@ -49,17 +49,17 @@ public class CarController {
     }
 
 
-    @PutMapping(value = "/update/{id}/{brand}/{model}/{color}/{productionYear}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/update/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public Car updateCar(@PathVariable(value = "id") long id, @PathVariable(value = "brand") String brand, @PathVariable(value = "model") String model, @PathVariable(value = "color") String color, @PathVariable(value = "productionYear") Integer productionYear) {
+    public Car updateCar1(@PathVariable(value = "id") long id, @RequestBody Car car) {
 
-        return carService.updateCar(carService.findCarById(id), brand, model, color, 2023);
+        return carService.updateCar(id, car);
 
     }
 
-    @PutMapping(value = "/colorupdate/{id}/{color}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/colorupdate/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public Car changeColor(@PathVariable(value = "id") long id, @PathVariable(value = "color") String color) {
+    public Car changeColor(@PathVariable(value = "id") long id, @RequestBody String color) {
 
         return carService.changeColor(id, color);
 

@@ -24,11 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GetCarByIdTest {
 
     @Autowired
-    private MockMvc mockMvc;
-
-
-    @Autowired
     Flyway flyway;
+    @Autowired
+    private MockMvc mockMvc;
 
     @BeforeEach
     void cleanAndRestoreDatabase() {
@@ -42,7 +40,12 @@ public class GetCarByIdTest {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/cars/1"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.id", Is.is(1)));
+                .andExpect(jsonPath("$.id", Is.is(1)))
+                .andExpect(jsonPath("$.brand", Is.is("BMW")))
+                .andExpect(jsonPath("$.model", Is.is("1")))
+                .andExpect(jsonPath("$.color", Is.is("yellow")))
+                .andExpect(jsonPath("$.year", Is.is(2020)));
+
 
 
     }

@@ -24,10 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GetAllCarsByColorTest {
 
     @Autowired
-private MockMvc mockMvc;
-
-    @Autowired
     Flyway flyway;
+    @Autowired
+    private MockMvc mockMvc;
 
     @BeforeEach
     void cleanAndRestoreDatabase() {
@@ -35,15 +34,14 @@ private MockMvc mockMvc;
         flyway.migrate();
     }
 
-@Test
+    @Test
     public void shouldReturnAllCarsBySelectedColor() throws Exception {
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/color/yellow"))
-            .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.length()", Is.is(2)))
-            .andExpect(jsonPath("$[0].brand", Is.is("BMW")));
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/color/yellow"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", Is.is(2)))
+                .andExpect(jsonPath("$[0].brand", Is.is("BMW")));
 
 
-
-}
+    }
 }

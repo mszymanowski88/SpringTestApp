@@ -1,6 +1,8 @@
 package com.example.springtestapp.controller;
 
 
+import com.example.springtestapp.model.Car;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 @ActiveProfiles("flyway")
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
@@ -21,21 +25,32 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class UpdateCarTest {
 
     @Autowired
+    ObjectMapper objectMapper;
+    @Autowired
     private MockMvc mockMvc;
-
-
 
     @Test
     public void shouldUpdateCar() throws Exception {
 
 
+        Car carUpdated = new Car();
+        carUpdated.setBrand("Fiat");
+        carUpdated.setModel("Tipo");
+        carUpdated.setColor("White");
+        carUpdated.setYear(2019);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/update/1/Renulat/Twingo/Black/2029")
+
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/update/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .content(this.objectMapper.writeValueAsString(carUpdated)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.model", Is.is("Twingo")));
-    
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.brand", Is.is("Fiat")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.model", Is.is("Tipo")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.color", Is.is("White")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.year", Is.is(2019)))
+                .andDo(print());
+
     }
 
 }

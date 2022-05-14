@@ -1,6 +1,5 @@
 package com.example.springtestapp.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.flywaydb.core.Flyway;
 import org.hamcrest.core.Is;
 import org.junit.Test;
@@ -23,17 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GetAllCarsTest
-{
+public class GetAllCarsTest {
     @Autowired
-    public   MockMvc mockMvc;
+    public MockMvc mockMvc;
 
     @Autowired
     Flyway flyway;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
 
     @BeforeEach
     void cleanAndRestoreDatabase() {
@@ -50,10 +44,10 @@ public class GetAllCarsTest
                 .andExpect(jsonPath("$[0].id", Is.is(1)))
                 .andExpect(jsonPath("$[0].brand", Is.is("BMW")))
                 .andExpect(jsonPath("$[1].brand", Is.is("Seat")))
+                .andExpect(jsonPath("$[2].color", Is.is("white")))
+                .andExpect(jsonPath("$[3].year", Is.is(2021)))
                 .andDo(print());
     }
-
-
 
 
 }

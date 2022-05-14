@@ -1,8 +1,10 @@
 package com.example.springtestapp.controller;
 
 
+import org.flywaydb.core.Flyway;
 import org.hamcrest.core.Is;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,16 +29,29 @@ public class ChangeColorTest {
     @Autowired
     private MockMvc mockMvc;
 
+
+    @Autowired
+    Flyway flyway;
+
+    @BeforeEach
+    void cleanAndRestoreDatabase() {
+        flyway.clean();
+        flyway.migrate();
+    }
+
     @Test
     public void shouldUpdateCar() throws Exception {
 
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/colorupdate/1/pink")
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/colorupdate/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+
+                .content("pink"))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.color", Is.is("pink")));
         mockMvc.perform(MockMvcRequestBuilders.get("/cars")).andDo(print());
+
+
     }
 
 }

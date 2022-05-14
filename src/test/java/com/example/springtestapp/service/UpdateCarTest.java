@@ -24,12 +24,42 @@ public class UpdateCarTest {
         carService = new CarServiceImpl(carRepository);
 
     }
+//
+//    @Test
+//    public void shouldUpdateCarTest() {
+//        setUp();
+//
+//        System.out.println();
+//        Car expected = new Car();
+//        expected.setId(1L);
+//        expected.setBrand("Skoda");
+//        expected.setModel("Octavia");
+//        expected.setColor("Yellow");
+//        expected.setYear(2019);
+//
+//        Mockito.when(carRepository.findById(expected.getId())).thenReturn(Optional.of(expected));
+//
+//        carService.updateCar(expected, "Skoda", "octavia", "Brown", 2020);
+//
+//        assertEquals(expected.getColor(), "Brown");
+//
+//
+//    }
 
     @Test
     public void shouldUpdateCarTest() {
         setUp();
 
         System.out.println();
+
+        Car  testCar = new Car();
+       testCar.setId(1L);
+        testCar.setBrand("Skoda");
+        testCar.setModel("Octavia");
+        testCar.setColor("Brown");
+        testCar.setYear(2019);
+
+
         Car expected = new Car();
         expected.setId(1L);
         expected.setBrand("Skoda");
@@ -37,11 +67,11 @@ public class UpdateCarTest {
         expected.setColor("Yellow");
         expected.setYear(2019);
 
-        Mockito.when(carRepository.findById(expected.getId())).thenReturn(Optional.of(expected));
+        Mockito.when(carRepository.findById(testCar.getId())).thenReturn(Optional.of(testCar));
 
-        carService.updateCar(expected, "Skoda", "octavia", "Brown", 2020);
+        carService.updateCar(testCar.getId(),expected);
 
-        assertEquals(expected.getColor(), "Brown");
+        assertEquals(testCar.getColor(), "Yellow");
 
 
     }

@@ -19,7 +19,8 @@ public interface CarService {
     Car changeColor(long id, String color);
 
 
-    Car updateCar(Car car, String brand, String model, String color, int year);
+    Car updateCar(Long carIdToUpdate,Car car);
+
 
     List<Car> findCarsByColor(String color);
 

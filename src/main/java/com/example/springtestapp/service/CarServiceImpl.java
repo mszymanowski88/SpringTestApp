@@ -3,8 +3,6 @@ package com.example.springtestapp.service;
 import com.example.springtestapp.model.Car;
 import com.example.springtestapp.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -51,29 +49,34 @@ public class CarServiceImpl implements CarService {
 
     }
 
+
+
     @Override
-    public Car updateCar(Car car, String brand, String model, String color, int year) {
-        if (car.getId() == null || car.getId() == 0) {
+    public Car updateCar(Long carIdToUpdateCar, Car car) {
+        if (carIdToUpdateCar == null || carIdToUpdateCar == 0) {
 
             throw new EntityNotFoundException("Car or ID must not be null!");
         }
 
-        Optional<Car> carToUpdate = carRepository.findById(car.getId());
+        Optional<Car> carToUpdate = carRepository.findById(carIdToUpdateCar);
         if (carToUpdate.isEmpty()) {
 
             throw new EntityNotFoundException("Car with " + car.getId() + " does not exisit");
         }
 
         Car existingCarToUpdate = carToUpdate.get();
-        existingCarToUpdate.setBrand(brand);
-        existingCarToUpdate.setModel(model);
-        existingCarToUpdate.setColor(color);
-        existingCarToUpdate.setYear(year);
+        existingCarToUpdate.setBrand(car.getBrand());
+        existingCarToUpdate.setModel(car.getModel());
+        existingCarToUpdate.setColor(car.getColor());
+        existingCarToUpdate.setYear(car.getYear());
 
         return carRepository.save(existingCarToUpdate);
 
 
     }
+
+
+
 
     @Override
     public List<Car> findCarsByColor(String color) {
@@ -96,45 +99,8 @@ public class CarServiceImpl implements CarService {
         return carRepository.save(existingCarToUpdate);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void test() {
-
-        System.out.println(getAllCars());
 
 
-    }
-
-
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void test()
-//    {
-//
-//        System.out.println("test");
-//        for(Car car : carRepository.findAll())
-//            System.out.println("test "+ car);
-//
-//
-//
-//
-//    }
-
-
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void testUpdate()
-//    {
-//
-//
-//  updateCar(carRepository.getById(3L),"SkodaUp", "Scala", "Yellow", 2019);
-//        System.out.println(carRepository.findById(3L).get());
-//    }
 }
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void testUpdate()
-//    {
-//        Car car = new Car(1L,"Skoda","Octavia","Yellow",2019);
-//        carRepository.save(car);
-//
-//
-//
-//}
+
